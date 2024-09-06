@@ -7,8 +7,8 @@ This package implements a generic reservation system for items of any kind.
 The component can be instantiated with a transaction like this:
 
     CALL_FUNCTION
-        Address("<BLUEPRINT_ADDRESS>")
-        BookingSystem
+        Address("<PACKAGE_ADDRESS>")
+        "BookingSystem"
         "new"
         Address("<OWNER_BADGE_ADDRESS>")
     ;
@@ -204,7 +204,7 @@ A customer can claim its accrued refund by this transaction:
         Expression("ENTIRE_WORKTOP")
     ;
 
-A `ReservationRefundEvent` event is issued.
+A `ReservationRefundEvent` event is issued and the Reservation NFT is burned.
 
 ## Payment
 
