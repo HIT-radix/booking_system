@@ -127,7 +127,7 @@ A registered user can book an item using this transaction manifest:
 
 The component automatically verifies that there are no conflicting reservations for the same item in the same time frame.  
 
-The difference among `<END_TIME>` and `<START_TIME>` must be a multiple of the `<MINIMUM_RESERVATION_PERIOD>`. The `<START_TIME>` must also be an integer number of `<MINIMUM_RESERVATION_PERIOD>` after the `<START_TIME>` of an availability interval. Let's see a simple example: if the `<MINIMUM_RESERVATION_PERIOD>` is one day and the vailability interval starts at 3:00 PM, all reservations must start and end at 3:00 PM.
+The difference among `<END_TIME>` and `<START_TIME>` must be a multiple of the `<MINIMUM_RESERVATION_PERIOD>`. The `<START_TIME>` must also be an integer number of `<MINIMUM_RESERVATION_PERIOD>` after the `<START_TIME>` of an availability interval. Let's see a simple example: if the `<MINIMUM_RESERVATION_PERIOD>` is one day and the availability interval starts at 3:00 PM, all reservations must start and end at 3:00 PM.
 
 The customer must pay the full cost at the time of the reservation but the payment is retained by the componet that acts as an escrow.
 
