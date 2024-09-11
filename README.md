@@ -31,7 +31,7 @@ A `NewUserEvent` is issued; it contains the unique `<USER_BADGE_ID>` assigned to
 
 ## Item
 
-A user can own zero of more items and make them available in the platform by this transaction manifest:
+A user can own zero or more items and make them available in the platform by this transaction manifest:
 
     CALL_METHOD
         Address("<ACCOUNT>")
