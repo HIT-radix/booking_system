@@ -1,3 +1,5 @@
+//TODO: check if there's a maximum number of items a user can own
+
 use scrypto::prelude::*;
 
 #[derive(ScryptoSbor, ScryptoEvent)]
@@ -8,6 +10,8 @@ pub struct NewUserEvent {
 #[derive(Debug, ScryptoSbor, NonFungibleData)]
 pub struct User {
     pub id: u64,
+    #[mutable]
+    pub owned_items: Vec<u64>,
 }
 
 impl User {
@@ -24,6 +28,7 @@ impl User {
 
         Self {
             id: id,
+            owned_items: vec![],
         }
     }
 }

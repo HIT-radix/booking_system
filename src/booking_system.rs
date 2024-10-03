@@ -209,7 +209,7 @@ mod booking_system {
             coin: ResourceAddress,
             min_cancellation_forewarning: i64,
         ) {
-            let user = self.get_user_data(user_proof);
+            let mut user = self.get_user_data(user_proof);
 
             self.last_item_id += 1;
             let item = Item::new(
@@ -220,6 +220,13 @@ mod booking_system {
                 min_cancellation_forewarning,
             );
             self.items.insert(self.last_item_id, item);
+
+            user.owned_items.push(self.last_item_id);
+            self.users_resource_manager.update_non_fungible_data(
+                &NonFungibleLocalId::integer(user.id.into()),
+                "owned_items",
+                user.owned_items,
+            );
         }
 
         pub fn add_or_modify_availability_interval(
