@@ -307,7 +307,7 @@ mod booking_system {
             let reservation_data = self.burn_reservation_nft(reservation);
 
             assert!(
-                reservation_data.max_cancellation_time <= Clock::current_time_rounded_to_seconds(),
+                reservation_data.max_cancellation_time >= Clock::current_time_rounded_to_seconds(),
                 "Cannot cancel this reservation now",
             );
 

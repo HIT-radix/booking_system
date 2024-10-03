@@ -1,0 +1,22 @@
+CALL_METHOD
+    Address("${account}")
+    "lock_fee"
+    Decimal("10")
+;
+CALL_METHOD
+    Address("${account}")
+    "create_proof_of_non_fungibles"
+    Address("${user_badge}")
+    Array<NonFungibleLocalId>(NonFungibleLocalId("#${user_id}#"))
+;
+POP_FROM_AUTH_ZONE
+    Proof("proof")
+;
+CALL_METHOD
+    Address("${component}")
+    "new_item"
+    Proof("proof")
+    ${minimum_reservation_period}i64
+    Address("${accepted_coin_address}")
+    ${min_cancellation_forewarning}i64
+;

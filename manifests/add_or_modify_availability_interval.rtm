@@ -1,0 +1,24 @@
+CALL_METHOD
+    Address("${account}")
+    "lock_fee"
+    Decimal("10")
+;
+CALL_METHOD
+    Address("${account}")
+    "create_proof_of_non_fungibles"
+    Address("${user_badge}")
+    Array<NonFungibleLocalId>(NonFungibleLocalId("#${user_id}#"))
+;
+POP_FROM_AUTH_ZONE
+    Proof("proof")
+;
+CALL_METHOD
+    Address("${component}")
+    "add_or_modify_availability_interval"
+    Proof("proof")
+    ${item_id}u64
+    ${start_time}i64
+    ${available}
+    Enum<1u8>(Decimal("${price_per_minimum_reservation_period}"))
+;
+

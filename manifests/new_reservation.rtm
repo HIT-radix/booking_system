@@ -1,0 +1,38 @@
+CALL_METHOD
+    Address("${account}")
+    "lock_fee"
+    Decimal("10")
+;
+CALL_METHOD
+    Address("${account}")
+    "create_proof_of_non_fungibles"
+    Address("${user_badge}")
+    Array<NonFungibleLocalId>(NonFungibleLocalId("#${user_id}#"))
+;
+POP_FROM_AUTH_ZONE
+    Proof("proof")
+;
+CALL_METHOD
+    Address("${account}")
+    "withdraw"
+    Address("${accepted_coin_address}")
+    Decimal("${payment_amount}")
+;
+TAKE_ALL_FROM_WORKTOP
+    Address("${accepted_coin_address}")
+    Bucket("bucket1")
+;
+CALL_METHOD
+    Address("${component}")
+    "new_reservation"
+    Proof("proof")
+    ${item_id}u64
+    ${start_time}i64
+    ${end_time}i64
+    Bucket("bucket1")
+;
+CALL_METHOD
+    Address("${account}")
+    "deposit_batch"
+    Expression("ENTIRE_WORKTOP")
+;
