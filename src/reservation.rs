@@ -72,7 +72,7 @@ pub struct DisputeVoteTerminatedEvent {
     to_owner: Decimal,
 }
 
-#[derive(Debug, ScryptoSbor, NonFungibleData)]
+#[derive(Debug, ScryptoSbor)]
 pub struct Reservation {
     id: u64,
     customer_id: u64,
@@ -92,6 +92,7 @@ pub struct ReservationNFT {
     pub item_id: u64,
     pub start_time: Instant,
     pub end_time: Instant,
+    #[mutable]
     pub status: ReservationStatus,
     pub max_cancellation_time: Instant,
 }

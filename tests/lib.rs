@@ -1,68 +1,31 @@
 use scrypto_test::prelude::*;
 
-use booking_system::hello_test::*;
+use booking_system::booking_system::booking_system_test::*;
 
 #[test]
-fn test_hello() {
-    // Setup the environment
-    let mut ledger = LedgerSimulatorBuilder::new().build();
-
-    // Create an account
-    let (public_key, _private_key, account) = ledger.new_allocated_account();
-
-    // Publish package
-    let package_address = ledger.compile_and_publish(this_package!());
-
-    // Test the `instantiate_hello` function.
-    let manifest = ManifestBuilder::new()
-        .lock_fee_from_faucet()
-        .call_function(
-            package_address,
-            "Hello",
-            "instantiate_hello",
-            manifest_args!(),
-        )
-        .build();
-    let receipt = ledger.execute_manifest(
-        manifest,
-        vec![NonFungibleGlobalId::from_public_key(&public_key)],
-    );
-    println!("{:?}\n", receipt);
-    let component = receipt.expect_commit(true).new_component_addresses()[0];
-
-    // Test the `free_token` method.
-    let manifest = ManifestBuilder::new()
-        .lock_fee_from_faucet()
-        .call_method(component, "free_token", manifest_args!())
-        .call_method(
-            account,
-            "deposit_batch",
-            manifest_args!(ManifestExpression::EntireWorktop),
-        )
-        .build();
-    let receipt = ledger.execute_manifest(
-        manifest,
-        vec![NonFungibleGlobalId::from_public_key(&public_key)],
-    );
-    println!("{:?}\n", receipt);
-    receipt.expect_commit_success();
-}
-
-#[test]
-fn test_hello_with_test_environment() -> Result<(), RuntimeError> {
-    // Arrange
+fn test_booking_system() -> Result<(), RuntimeError> {
     let mut env = TestEnvironment::new();
-    let package_address = 
+    env.disable_auth_module();
+    let package_address =
         PackageFactory::compile_and_publish(this_package!(), &mut env, CompileProfile::Fast)?;
 
-    let mut hello = Hello::instantiate_hello(package_address, &mut env)?;
+    // Create owner badge
+    let badge_bucket = ResourceBuilder::new_fungible(OwnerRole::None)
+        .divisibility(0)
+        .mint_initial_supply(1, &mut env)?;
+    let badge_address = badge_bucket.resource_address(&mut env)?;
 
-    // Act
-    let bucket = hello.free_token(&mut env)?;
+    // Instantiate a BookingSystem component
+    let mut booking_system = BookingSystem::new(
+        badge_address,
+        package_address,
+        &mut env
+    )?;
 
-    // Assert
-    let amount = bucket.amount(&mut env)?;
-    assert_eq!(amount, dec!("1"));
+    // Create a user badge
+    let user_badge_bucket1 = booking_system.new_user(
+        &mut env
+    )?;
 
     Ok(())
 }

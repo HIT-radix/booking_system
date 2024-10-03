@@ -98,7 +98,7 @@ mod booking_system {
             ))
             .create_with_no_initial_supply();
 
-            let reservations_resource_manager = ResourceBuilder::new_integer_non_fungible::<Reservation>(
+            let reservations_resource_manager = ResourceBuilder::new_integer_non_fungible::<ReservationNFT>(
                 OwnerRole::Updatable(rule!(require(owner_badge_address)))
             )
             .metadata(metadata!(
